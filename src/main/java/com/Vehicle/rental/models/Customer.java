@@ -53,6 +53,10 @@ public class Customer {
         this.loyaltyPoints = loyaltyPoints;
     }
 
+    public UUID getCustomerId() {
+        return customerId;
+    }
+
     @Override
     public String toString() {
         return "Customer{" +

@@ -1,6 +1,7 @@
 package com.Vehicle.rental.models;
 
 
+import com.Vehicle.rental.Exceptions.VehicleNotAvailable;
 import com.Vehicle.rental.services.Rentable;
 
 import java.util.UUID;
@@ -48,8 +49,12 @@ public non-sealed class Car extends Vehicle implements Rentable {
     }
 
     @Override
-    public void rent(Customer customer, int days) {
+    public double rent(Customer customer, int days) {
+        if(!isAvailableForRental()) {
+            throw new VehicleNotAvailable("This car is not available for rent");
+        }
         setAvailable(false);
+        return calculateRentalCost(days);
 
     }
 

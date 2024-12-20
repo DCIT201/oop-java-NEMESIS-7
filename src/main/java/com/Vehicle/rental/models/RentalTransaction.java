@@ -1,35 +1,35 @@
 package com.Vehicle.rental.models;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class RentalTransaction {
     private final UUID transactionId;
     private final Vehicle rentedVehicle;
     private final Customer customer;
-    private final Date rentalDate;
-    private Date dateRented;
-    private int duration;
+    private final LocalDateTime rentalDate;
+    private LocalDateTime dateToReturn;
+    private long duration;
     private double totalPrice;
     private RentalStatus status;
 
-    public RentalTransaction(UUID transactionId, Vehicle rentedVehicle, Customer customer, Date rentalDate, Date dateRented, int duration, double totalPrice, RentalStatus status) {
-        this.transactionId = transactionId;
+    public RentalTransaction(Vehicle rentedVehicle, Customer customer, long duration, double totalPrice, RentalStatus status) {
+        this.transactionId = UUID.randomUUID();
         this.rentedVehicle = rentedVehicle;
         this.customer = customer;
-        this.rentalDate = rentalDate;
-        this.dateRented = dateRented;
+        this.rentalDate = LocalDateTime.now();
+        this.dateToReturn = rentalDate.plusDays(duration);
         this.duration = duration;
         this.totalPrice = totalPrice;
         this.status = status;
     }
 
-    public Date getDateRented() {
-        return dateRented;
+    public LocalDateTime dateRented() {
+        return dateToReturn;
     }
 
-    public void setDateRented(Date dateRented) {
-        this.dateRented = dateRented;
+    public void setLocalDateTimeRented(LocalDateTime dateToReturn) {
+        this.dateToReturn = dateToReturn;
     }
 
     public Vehicle getRentedVehicle() {
@@ -40,7 +40,7 @@ public class RentalTransaction {
         return customer;
     }
 
-    public int getDuration() {
+    public long getDuration() {
         return duration;
     }
 
@@ -70,15 +70,14 @@ public class RentalTransaction {
         return "RentalTransaction{" +
                 "transactionId=" + transactionId +
                 ", rentedVehicle=" + rentedVehicle +
-                ", customer=" + customer +
+                ", customer=" + customer.getCustomerId() +
                 ", rentalDate=" + rentalDate +
-                ", dateRented=" + dateRented +
+                ", dateToReturn=" + dateToReturn +
                 ", duration=" + duration +
                 ", totalPrice=" + totalPrice +
                 ", status=" + status +
                 '}';
     }
-
     public enum RentalStatus {
         ONGOING, COMPLETED, CANCELLED
     }

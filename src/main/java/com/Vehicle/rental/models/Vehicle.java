@@ -1,8 +1,10 @@
 package com.Vehicle.rental.models;
 
+import com.Vehicle.rental.services.Rentable;
+
 import java.util.UUID;
 
-public abstract sealed class Vehicle permits Car, Truck, Motorcycle{
+public abstract sealed class Vehicle implements Rentable permits Car, Truck, Motorcycle {
     private final UUID vehicleId;
 
     private String model;
@@ -47,7 +49,7 @@ public abstract sealed class Vehicle permits Car, Truck, Motorcycle{
     }
 
     public void setAvailable(boolean available) {
-        isAvailable = available;
+        this.isAvailable = available;
     }
 
 }
