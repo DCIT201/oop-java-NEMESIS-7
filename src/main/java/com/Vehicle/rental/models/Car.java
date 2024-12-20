@@ -1,7 +1,11 @@
 package com.Vehicle.rental.models;
 
 
-public final class Car extends Vehicle{
+import com.Vehicle.rental.services.Rentable;
+
+import java.util.UUID;
+
+public non-sealed class Car extends Vehicle implements Rentable {
 
     private boolean hasClimateControl;
 
@@ -13,7 +17,7 @@ public final class Car extends Vehicle{
         this.hasClimateControl = hasClimateControl;
     }
 
-    public Car(String vehicleId, String model, double baseRentalRate, boolean isAvailable, boolean hasClimateControl) {
+    public Car(UUID vehicleId, String model, double baseRentalRate, boolean isAvailable, boolean hasClimateControl) {
         super(vehicleId, model, baseRentalRate, isAvailable);
         this.hasClimateControl = hasClimateControl;
     }
@@ -32,5 +36,30 @@ public final class Car extends Vehicle{
     public boolean isAvailableForRental() {
         return isAvailable();
     }
+    @Override
+    public String toString() {
+        return "Car{" +
+                "vehicleId='" + getVehicleId() + '\'' +
+                ", model='" + getModel() + '\'' +
+                ", baseRentalRate=" + getBaseRentalRate() +
+                ", isAvailable=" + isAvailable() +
+                ", hasClimateControl=" + hasClimateControl +
+                '}';
+    }
 
+    @Override
+    public void rent(Customer customer, int days) {
+        setAvailable(false);
+
+    }
+
+    @Override
+    public void returnVehicle() {
+        setAvailable(true);
+    }
+
+    @Override
+    public boolean isAvailableForRent() {
+        return isAvailable();
+    }
 }

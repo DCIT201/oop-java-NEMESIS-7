@@ -1,7 +1,9 @@
 package com.Vehicle.rental.models;
 
+import java.util.UUID;
+
 public abstract sealed class Vehicle permits Car, Truck, Motorcycle{
-    private String vehicleId;
+    private final UUID vehicleId;
 
     private String model;
     private double baseRentalRate;
@@ -12,20 +14,17 @@ public abstract sealed class Vehicle permits Car, Truck, Motorcycle{
 
 //    abstract Function<Double, Double> calculateRentalCost(int days);
 
-    public Vehicle(String vehicleId, String model, double baseRentalRate, boolean isAvailable) {
+    public Vehicle(UUID vehicleId, String model, double baseRentalRate, boolean isAvailable) {
         this.vehicleId = vehicleId;
         this.model = model;
         this.baseRentalRate = baseRentalRate;
         this.isAvailable = isAvailable;
     }
 
-    public String getVehicleId() {
+    public UUID getVehicleId() {
         return vehicleId;
     }
 
-    public void setVehicleId(String vehicleId) {
-        this.vehicleId = vehicleId;
-    }
 
     public String getModel() {
         return model;
