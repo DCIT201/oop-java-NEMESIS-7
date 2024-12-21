@@ -29,7 +29,10 @@ public class RentalAgency {
                 vehicle,
                 customer,
                 daysRented,
-                vehicle.calculateRentalCost(daysRented),
+                customer.getLoyaltyPoints() > 0 ?
+                        (vehicle.calculateRentalCost(daysRented)) / (customer.getLoyaltyPoints() * 0.01)
+                        :
+                        vehicle.calculateRentalCost(daysRented),
                 RentalTransaction.RentalStatus.ONGOING
 
         );
@@ -43,6 +46,19 @@ public class RentalAgency {
         return transaction;
     }
 
+    public void returnVehicle(UUID rentalTransactionId) {
+        if (!transactions.containsKey(rentalTransactionId)) {
+            throw new VehicleDoesNotExist("There's no record of rental.");
+        }
+        RentalTransaction transaction = transactions.get(rentalTransactionId);
+        Vehicle vehicle = transaction.getRentedVehicle();
+        Customer customer = transaction.getCustomer();
+        if(vehicle != null) {
+            vehicle.setAvailable(true);
+            transaction.setStatus(RentalTransaction.RentalStatus.RETURNED);
+            customer.setLoyaltyPoints(customer.getLoyaltyPoints() + 1);
+        }
+    }
     public Vehicle addToFleet(Vehicle vehicle) {
         if (!carFleet.containsKey(vehicle.getVehicleId())) {
             carFleet.put(vehicle.getVehicleId(), vehicle);
@@ -61,7 +77,7 @@ public class RentalAgency {
         return carFleet
                 .values()
                 .stream()
-                .filter(Vehicle::isAvailable)
+                .filter(Vehicle::isAvailableForRental)
                 .toList();
     }
 

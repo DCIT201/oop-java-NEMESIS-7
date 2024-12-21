@@ -1,6 +1,7 @@
 package com.Vehicle.rental.models;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 public class RentalTransaction {
@@ -79,6 +80,18 @@ public class RentalTransaction {
                 '}';
     }
     public enum RentalStatus {
-        ONGOING, COMPLETED, CANCELLED
+        ONGOING, RETURNED, CANCELLED
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        RentalTransaction that = (RentalTransaction) o;
+        return duration == that.duration && Double.compare(totalPrice, that.totalPrice) == 0 && Objects.equals(transactionId, that.transactionId) && Objects.equals(rentedVehicle, that.rentedVehicle) && Objects.equals(customer, that.customer) && Objects.equals(rentalDate, that.rentalDate) && Objects.equals(dateToReturn, that.dateToReturn) && status == that.status;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(transactionId, rentedVehicle, customer, rentalDate, dateToReturn, duration, totalPrice, status);
     }
 }

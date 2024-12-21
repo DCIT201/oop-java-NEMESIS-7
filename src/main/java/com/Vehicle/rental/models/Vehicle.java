@@ -2,6 +2,7 @@ package com.Vehicle.rental.models;
 
 import com.Vehicle.rental.services.Rentable;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public abstract sealed class Vehicle implements Rentable permits Car, Truck, Motorcycle {
@@ -52,4 +53,15 @@ public abstract sealed class Vehicle implements Rentable permits Car, Truck, Mot
         this.isAvailable = available;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Vehicle vehicle = (Vehicle) o;
+        return Double.compare(baseRentalRate, vehicle.baseRentalRate) == 0 && isAvailable == vehicle.isAvailable && Objects.equals(vehicleId, vehicle.vehicleId) && Objects.equals(model, vehicle.model);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(vehicleId, model, baseRentalRate, isAvailable);
+    }
 }

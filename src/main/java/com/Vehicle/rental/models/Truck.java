@@ -4,6 +4,7 @@ import com.Vehicle.rental.Exceptions.VehicleNotAvailable;
 import com.Vehicle.rental.services.Rentable;
 import com.Vehicle.rental.services.VehicleService;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public non-sealed class Truck extends Vehicle implements Rentable {
@@ -26,7 +27,7 @@ public non-sealed class Truck extends Vehicle implements Rentable {
 
     @Override
     public double calculateRentalCost(int daysRented) {
-        return getBaseRentalRate() + (loadCapacity * daysRented * 20);
+        return getBaseRentalRate() + (loadCapacity * daysRented * 0.5);
     }
 
     @Override
@@ -62,5 +63,18 @@ public non-sealed class Truck extends Vehicle implements Rentable {
     @Override
     public boolean isAvailableForRent() {
         return isAvailable();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Truck truck = (Truck) o;
+        return Double.compare(loadCapacity, truck.loadCapacity) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), loadCapacity);
     }
 }

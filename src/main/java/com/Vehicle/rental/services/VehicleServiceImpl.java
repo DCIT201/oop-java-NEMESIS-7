@@ -54,7 +54,10 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     public List<Vehicle> getAvailableVehicles() {
-        return List.of();
+        return vehicleDB
+                .values()
+                .stream()
+                .toList();
     }
 
     @Override

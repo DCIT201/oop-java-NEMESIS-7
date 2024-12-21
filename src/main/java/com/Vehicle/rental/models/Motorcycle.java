@@ -3,6 +3,7 @@ package com.Vehicle.rental.models;
 import com.Vehicle.rental.Exceptions.VehicleNotAvailable;
 import com.Vehicle.rental.services.Rentable;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public non-sealed class Motorcycle extends Vehicle implements Rentable {
@@ -24,9 +25,7 @@ public non-sealed class Motorcycle extends Vehicle implements Rentable {
 
     @Override
     public double calculateRentalCost(int daysRented) {
-        double baseRentalRate = getBaseRentalRate();
-        double surcharge = engineCapacity * 15 * daysRented; //*15 for everyday of use
-        return baseRentalRate + surcharge;
+        return getBaseRentalRate() + engineCapacity * 0.2 * daysRented;
     }
 
     @Override
@@ -62,5 +61,18 @@ public non-sealed class Motorcycle extends Vehicle implements Rentable {
     @Override
     public boolean isAvailableForRent() {
         return isAvailableForRental();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Motorcycle that = (Motorcycle) o;
+        return engineCapacity == that.engineCapacity;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), engineCapacity);
     }
 }

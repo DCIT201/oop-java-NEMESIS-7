@@ -12,13 +12,14 @@ public class Customer {
     private int loyaltyPoints;
     private final Map<UUID, RentalTransaction> rentalHistory;
 
-    public Customer(Map<UUID, RentalTransaction> rentalHistory, int loyaltyPoints, String phone, String email, String customerName, UUID customerId) {
-        this.rentalHistory = new HashMap<>();
-        this.loyaltyPoints = loyaltyPoints;
+
+    public Customer(String customerName, String phone, String email) {
+        this.customerId = UUID.randomUUID();
+        this.loyaltyPoints = 0;
+        this.customerName = customerName;
         this.phone = phone;
         this.email = email;
-        this.customerName = customerName;
-        this.customerId = customerId;
+        this.rentalHistory = new HashMap<>();
     }
 
     public String getCustomerName() {

@@ -4,6 +4,7 @@ package com.Vehicle.rental.models;
 import com.Vehicle.rental.Exceptions.VehicleNotAvailable;
 import com.Vehicle.rental.services.Rentable;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public non-sealed class Car extends Vehicle implements Rentable {
@@ -27,7 +28,7 @@ public non-sealed class Car extends Vehicle implements Rentable {
     @Override
     public double calculateRentalCost(int days) {
         if (hasClimateControl) {
-            return getBaseRentalRate() * days;
+            return getBaseRentalRate() * days * 15;
         }
         return getBaseRentalRate();
 
@@ -66,5 +67,17 @@ public non-sealed class Car extends Vehicle implements Rentable {
     @Override
     public boolean isAvailableForRent() {
         return isAvailable();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Car car = (Car) o;
+        return hasClimateControl == car.hasClimateControl;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(hasClimateControl);
     }
 }
