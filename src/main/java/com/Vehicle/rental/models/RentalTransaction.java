@@ -65,6 +65,17 @@ public class RentalTransaction {
         this.status = status;
     }
 
+    public UUID getTransactionId() {
+        return transactionId;
+    }
+
+    public LocalDateTime getRentalDate() {
+        return rentalDate;
+    }
+
+    public LocalDateTime getDateToReturn() {
+        return dateToReturn;
+    }
 
     @Override
     public String toString() {
