@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.Vehicle.rental.models.RentalAgencyTest
+-------------------------------------------------------------------------------
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.021 s -- in com.Vehicle.rental.models.RentalAgencyTest
