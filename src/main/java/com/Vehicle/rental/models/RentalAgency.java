@@ -52,11 +52,12 @@ public class RentalAgency {
         return transaction;
     }
 
-    private static double calculateRentalCost(Vehicle vehicle, Customer customer, int daysRented) {
+    public double calculateRentalCost(Vehicle vehicle, Customer customer, int daysRented) {
         if(customer.getLoyaltyPoints() > 0) {
             return vehicle.calculateRentalCost(daysRented) / customer.getLoyaltyPoints() * 0.01;
+        }else{
+            return vehicle.calculateRentalCost(daysRented);
         }
-        return vehicle.calculateRentalCost(daysRented);
     }
 
     public void returnVehicle(UUID rentalTransactionId) {

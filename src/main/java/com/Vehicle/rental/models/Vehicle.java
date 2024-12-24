@@ -17,8 +17,8 @@ public abstract sealed class Vehicle implements Rentable permits Car, Truck, Mot
 
 //    abstract Function<Double, Double> calculateRentalCost(int days);
 
-    public Vehicle(UUID vehicleId, String model, double baseRentalRate, boolean isAvailable) {
-        this.vehicleId = vehicleId;
+    public Vehicle(String model, double baseRentalRate, boolean isAvailable) {
+        this.vehicleId = UUID.randomUUID();
         this.model = model;
         this.baseRentalRate = baseRentalRate;
         this.isAvailable = isAvailable;

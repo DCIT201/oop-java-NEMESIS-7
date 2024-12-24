@@ -19,8 +19,8 @@ public non-sealed class Truck extends Vehicle implements Rentable {
         this.loadCapacity = loadCapacity;
     }
 
-    public Truck(UUID vehicleId, String model, double baseRentalRate, boolean isAvailable, double loadCapacity) {
-        super(vehicleId, model, baseRentalRate, isAvailable);
+    public Truck(String model, double baseRentalRate, boolean isAvailable, double loadCapacity) {
+        super(model, baseRentalRate, isAvailable);
         this.loadCapacity = loadCapacity;
     }
 

@@ -16,7 +16,7 @@ class TruckTest {
     @BeforeEach
     void setUp() {
         vehicleId = UUID.randomUUID();
-        truck = new Truck(vehicleId, "Ford", 100.0, true, 10);
+        truck = new Truck("Ford", 100.0, true, 10);
     }
 
     @Test
@@ -27,7 +27,7 @@ class TruckTest {
 
     @Test
     void testRent_WhenAvailable() {
-        Customer customer = new Customer("John Doe", "0534431116", "jane@example.com");
+        Customer customer = new Customer("Michael Jackson", "0534431116", "mike@example.com");
         double cost = truck.rent(customer, 5);
         assertEquals(100.0 + 10 * 5 * 0.5, cost);
         assertFalse(truck.isAvailable()); // Availability should be set to false after rent
@@ -36,7 +36,7 @@ class TruckTest {
     @Test
     void testRent_WhenNotAvailable() {
         truck.setAvailable(false);
-        Customer customer = new Customer("John Doe", "0534431116", "jane@example.com");
+        Customer customer = new Customer("Michael Jackson", "0534431116", "mike@example.com");
         assertThrows(VehicleNotAvailable.class, () -> truck.rent(customer, 5));
     }
 
@@ -46,4 +46,17 @@ class TruckTest {
         truck.returnVehicle();
         assertTrue(truck.isAvailable());
     }
+    @Test
+    void testToString() {
+        String toString = truck.toString();
+        assertTrue(toString.contains("Ford"));
+    }
+    @Test
+    void testAvailable(){
+        truck.setAvailable(true);
+        assertTrue(truck.isAvailable());
+        truck.setAvailable(false);
+        assertFalse(truck.isAvailable());
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.Vehicle.rental.models;
 
 
+import com.Vehicle.rental.Exceptions.VehicleAlreadyExists;
 import com.Vehicle.rental.Exceptions.VehicleNotAvailable;
 import com.Vehicle.rental.services.Rentable;
 
@@ -19,18 +20,20 @@ public non-sealed class Car extends Vehicle implements Rentable {
         this.hasClimateControl = hasClimateControl;
     }
 
-    public Car(UUID vehicleId, String model, double baseRentalRate, boolean isAvailable, boolean hasClimateControl) {
-        super(vehicleId, model, baseRentalRate, isAvailable);
+    public Car(String model, double baseRentalRate, boolean isAvailable, boolean hasClimateControl) {
+        super(model, baseRentalRate, isAvailable);
         this.hasClimateControl = hasClimateControl;
     }
 
 
     @Override
     public double calculateRentalCost(int days) {
+        double cost = getBaseRentalRate() * days;
         if (hasClimateControl) {
-            return getBaseRentalRate() * days * 15;
+            cost +=  15 * days;
+            return cost;
         }
-        return getBaseRentalRate();
+        return getBaseRentalRate() * days;
 
     }
 
@@ -61,6 +64,9 @@ public non-sealed class Car extends Vehicle implements Rentable {
 
     @Override
     public void returnVehicle() {
+        if(isAvailable()) {
+            throw new VehicleAlreadyExists("This car is already available");
+        }
         setAvailable(true);
     }
 

@@ -18,8 +18,8 @@ public non-sealed class Motorcycle extends Vehicle implements Rentable {
         this.engineCapacity = engineCapacity;
     }
 
-    public Motorcycle(UUID vehicleId, String model, double baseRentalRate, boolean isAvailable, int engineCapacity) {
-        super(vehicleId, model, baseRentalRate, isAvailable);
+    public Motorcycle(String model, double baseRentalRate, boolean isAvailable, int engineCapacity) {
+        super(model, baseRentalRate, isAvailable);
         this.engineCapacity = engineCapacity;
     }
 

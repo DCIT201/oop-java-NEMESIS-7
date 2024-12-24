@@ -16,7 +16,7 @@ class MotorcycleTest {
     @BeforeEach
     void setUp() {
         vehicleId = UUID.randomUUID();
-        motorcycle = new Motorcycle(vehicleId, "Harley", 50.0, true, 500);
+        motorcycle = new Motorcycle("Harley", 50.0, true, 500);
     }
 
     @Test
