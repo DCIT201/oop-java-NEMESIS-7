@@ -1,8 +1,6 @@
 package com.Vehicle.rental.models;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class Customer {
     private final UUID customerId;
@@ -11,6 +9,7 @@ public class Customer {
     private String phone;
     private int loyaltyPoints;
     private final Map<UUID, RentalTransaction> rentalHistory;
+    private List<Integer> ratings;
 
 
     public Customer(String customerName, String phone, String email) {
@@ -20,6 +19,7 @@ public class Customer {
         this.phone = phone;
         this.email = email;
         this.rentalHistory = new HashMap<>();
+        this.ratings = new ArrayList<>();
     }
 
     public String getCustomerName() {
@@ -58,6 +58,32 @@ public class Customer {
         return customerId;
     }
 
+    public List<Integer> getRatings() {
+        return ratings;
+    }
+    public void setRatings(List<Integer> ratings) {
+        this.ratings = ratings;
+    }
+
+    public void addRating(int rating) {
+        if(rating < 0 || rating > 5){
+            throw new IllegalArgumentException("Rating must be between 0 and 5");
+        }
+        ratings.add(rating);
+    }
+
+    public double getAverageRating() {
+        return ratings
+                .stream()
+                .mapToInt(Integer::intValue)
+                .average()
+                .orElse(0.0);
+    }
+
+    public int getNumberOfRatings() {
+        return ratings.size();
+    }
+
     @Override
     public String toString() {
         return "Customer{" +
@@ -67,6 +93,7 @@ public class Customer {
                 ", phone='" + phone + '\'' +
                 ", loyaltyPoints=" + loyaltyPoints +
                 ", rentalHistory=" + rentalHistory +
+                ", ratings=" + ratings +
                 '}';
     }
 }

@@ -88,7 +88,7 @@ Each vehicle class must implement unique:
 ### Bonus Challenges
 1. Implement a loyalty program using interfaces
 2. Create custom exceptions for rental scenarios
-3. Add a rating system for vehicles and customers
+3. Add a ratings system for vehicles and customers
 
 ### Additional OOP Principles to Demonstrate
 - Use of `final` keyword for immutability

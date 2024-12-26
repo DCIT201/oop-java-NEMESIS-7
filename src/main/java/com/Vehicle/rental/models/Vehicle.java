@@ -2,6 +2,8 @@ package com.Vehicle.rental.models;
 
 import com.Vehicle.rental.services.Rentable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -12,9 +14,29 @@ public abstract sealed class Vehicle implements Rentable permits Car, Truck, Mot
     private double baseRentalRate;
     private boolean isAvailable;
 
+    private List<Integer> ratings = new ArrayList<>();
+
     public abstract double calculateRentalCost(int daysRented);
     public abstract boolean isAvailableForRental();
 
+
+    public void addRating(int rating) {
+        if(rating < 0 || rating > 5) {
+            throw new IllegalArgumentException("Rating must be between 0 and 5");
+        }
+        ratings.add(rating);
+    }
+    public double getRating(){
+        return ratings
+                .stream()
+                .mapToInt(Integer::intValue)
+                .average()
+                .orElse(0.0);
+    }
+
+    public double getNumberOfRatings(){
+        return ratings.size();
+    }
 //    abstract Function<Double, Double> calculateRentalCost(int days);
 
     public Vehicle(String model, double baseRentalRate, boolean isAvailable) {
@@ -63,5 +85,13 @@ public abstract sealed class Vehicle implements Rentable permits Car, Truck, Mot
     @Override
     public int hashCode() {
         return Objects.hash(vehicleId, model, baseRentalRate, isAvailable);
+    }
+
+    public List<Integer> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(List<Integer> ratings) {
+        this.ratings = ratings;
     }
 }

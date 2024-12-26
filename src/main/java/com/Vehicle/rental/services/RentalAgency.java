@@ -1,9 +1,13 @@
-package com.Vehicle.rental.models;
+package com.Vehicle.rental.services;
 
 import com.Vehicle.rental.Exceptions.RecordDoesNotExist;
 import com.Vehicle.rental.Exceptions.VehicleAlreadyExists;
 import com.Vehicle.rental.Exceptions.VehicleDoesNotExist;
 import com.Vehicle.rental.Exceptions.VehicleNotAvailable;
+import com.Vehicle.rental.models.Customer;
+import com.Vehicle.rental.models.RentalTransaction;
+import com.Vehicle.rental.models.Vehicle;
+
 import static com.Vehicle.rental.models.RentalTransaction.RentalStatus.*;
 import java.util.*;
 

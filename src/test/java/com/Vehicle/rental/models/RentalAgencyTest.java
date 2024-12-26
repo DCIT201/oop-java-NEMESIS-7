@@ -1,8 +1,8 @@
 package com.Vehicle.rental.models;
 
 import com.Vehicle.rental.Exceptions.VehicleAlreadyExists;
-import com.Vehicle.rental.Exceptions.VehicleNotAvailable;
 import com.Vehicle.rental.Exceptions.VehicleDoesNotExist;
+import com.Vehicle.rental.services.RentalAgency;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -86,5 +86,13 @@ class RentalAgencyTest {
     void allVehicles(){
         rentalAgency.addToFleet(motorcycle);
         assertTrue(rentalAgency.getAvailableVehicles().contains(motorcycle));
+    }
+
+    @Test
+    void cancelRental(){
+        rentalAgency.addToFleet(motorcycle);
+        RentalTransaction transaction = rentalAgency.rentVehicle(motorcycle.getVehicleId(), customer, 5);
+        rentalAgency.cancelRental(transaction.getTransactionId());
+        assertEquals(RentalTransaction.RentalStatus.CANCELLED, transaction.getStatus());
     }
 }
