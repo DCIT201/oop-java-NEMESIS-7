@@ -219,13 +219,19 @@ public class Main {
 
     private static void rateVehicle(RentalAgency rentalAgency, Scanner input) {
         System.out.println("\n--- Rate a Vehicle ---");
-        System.out.print("Enter vehicle ID: ");
-        UUID vehicleId = UUID.fromString(input.nextLine());
+        System.out.print("Enter vehicle model: ");
+        String model = input.nextLine();
         System.out.print("Enter rating (1-5): ");
         int rating = input.nextInt();
+        input.nextLine();
+        Optional<Vehicle> vehicle = rentalAgency.getVehicle(model);
+        if (vehicle.isEmpty()) {
+            handleInvalidInput("Vehicle with model " + model + " does not exist.", input);
+        }
+        Vehicle rentingCar = vehicle.get();
 
         try {
-            rentalAgency.rateVehicle(vehicleId, rating);
+            rentalAgency.rateVehicle(rentingCar.getVehicleId(), rating);
             System.out.println("Vehicle rated successfully.");
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());

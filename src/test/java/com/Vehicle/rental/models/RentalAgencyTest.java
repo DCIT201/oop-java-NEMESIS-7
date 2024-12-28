@@ -7,6 +7,8 @@ import com.Vehicle.rental.services.RentalAgency;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -106,5 +108,45 @@ class RentalAgencyTest {
         assertThrows(RecordDoesNotExist.class, () -> rentalAgency.returnVehicle(UUID.randomUUID()));
     }
 
+    @Test
+    void getAvailableVehicles() {
+        rentalAgency.addToFleet(motorcycle);
+        assertTrue(rentalAgency.getAvailableVehicles().contains(motorcycle));
+    }
+    @Test
+    void getAvailableTypeVehicles() {
+        rentalAgency.addToFleet(motorcycle);
+
+        List<String> availableVehicles = rentalAgency.getAvailableTypeVehicles();
+
+        String expectedMotorcycleDetails = "Model: " + motorcycle.getModel() + "\nBase Rental Rate: " + motorcycle.getBaseRentalRate();
+        assertTrue(availableVehicles.contains(expectedMotorcycleDetails));
+    }
+
+    @Test
+    void findCustomerByEmail() {
+        rentalAgency.addCustomer(customer);
+        Optional<Customer> foundCustomer = rentalAgency.findCustomerByEmail(customer.getEmail());
+        assertTrue(foundCustomer.isPresent());
+        assertEquals(customer, foundCustomer.get());
+    }
+    @Test
+    void rateVehicle(){
+        rentalAgency.addToFleet(motorcycle);
+        rentalAgency.rateVehicle(motorcycle.getVehicleId(), 5);
+        double rating = motorcycle.getRating();
+        assertEquals(5, rating);
+    }
+
+    @Test
+    void averageRating(){
+        rentalAgency.addToFleet(motorcycle);
+        motorcycle.setRatings(List.of(
+                5,
+                3,
+                4
+        ));
+        assertEquals((double) (5 + 3 + 4) /3 , motorcycle.getRating());
+    }
 
 }

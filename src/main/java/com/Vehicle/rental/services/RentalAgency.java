@@ -110,7 +110,7 @@ public class RentalAgency {
         return carFleet
                 .values()
                 .stream()
-                .filter(Vehicle::isAvailableForRental)
+                .filter(Vehicle::isAvailable)
                 .toList();
     }
     public void cancelRental(UUID transactionId) {
