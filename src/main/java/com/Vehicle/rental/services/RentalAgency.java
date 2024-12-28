@@ -1,28 +1,42 @@
 package com.Vehicle.rental.services;
 
-import com.Vehicle.rental.Exceptions.RecordDoesNotExist;
-import com.Vehicle.rental.Exceptions.VehicleAlreadyExists;
-import com.Vehicle.rental.Exceptions.VehicleDoesNotExist;
-import com.Vehicle.rental.Exceptions.VehicleNotAvailable;
+import com.Vehicle.rental.Exceptions.*;
 import com.Vehicle.rental.models.Customer;
 import com.Vehicle.rental.models.RentalTransaction;
 import com.Vehicle.rental.models.Vehicle;
 
 import static com.Vehicle.rental.models.RentalTransaction.RentalStatus.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class RentalAgency {
     private final Map<UUID, Vehicle> carFleet;
     private final Map<UUID, RentalTransaction> transactions;
     private final Map<UUID, RentalTransaction> completedOrCancelledTransactions;
+    private final Map<UUID, Customer> customers;
 
     public RentalAgency() {
         this.carFleet = new HashMap<>();
         this.transactions = new HashMap<>();
         this.completedOrCancelledTransactions = new HashMap<>();
+        this.customers = new HashMap<>();
     }
 
-    public RentalTransaction rentVehicle(UUID vehicleId, Customer customer, int daysRented) {
+    public void addCustomer(Customer customer) {
+        if (customer == null) {
+            throw new IllegalArgumentException("Please enter a valid customer");
+        }
+        if(!customers.containsKey(customer.getCustomerId())){
+            customers.put(customer.getCustomerId(), customer);
+        }
+    }
+    public List<Customer> getCustomers() {
+        return customers
+                .values()
+                .stream()
+                .toList();
+    }
+    public RentalTransaction rentVehicle(UUID vehicleId, Customer customer, int daysRented) throws CustomerDoesNotExist, VehicleDoesNotExist {
         if(vehicleId == null || customer == null){
             throw new IllegalArgumentException("Vehicle id and customer are required");
         }
@@ -75,15 +89,16 @@ public class RentalAgency {
             vehicle.setAvailable(true);
             customer.setLoyaltyPoints(customer.getLoyaltyPoints() + 1);
             finaliseTransaction(rentalTransactionId, RETURNED);
+        }else {
+            throw new RecordDoesNotExist("No vehicle rented.");
         }
     }
-    public Vehicle addToFleet(Vehicle vehicle) {
+    public void addToFleet(Vehicle vehicle) {
         if (!carFleet.containsKey(vehicle.getVehicleId())) {
             carFleet.put(vehicle.getVehicleId(), vehicle);
         }else{
             throw new VehicleAlreadyExists("The vehicle you are adding to the fleet already exists.");
         }
-        return vehicle;
     }
     public List<Vehicle> getFleet() {
         return carFleet
@@ -116,4 +131,33 @@ public class RentalAgency {
         }
     }
 
+    public Optional<Vehicle> getVehicle(String model) {
+        return carFleet
+                .values()
+                .stream()
+                .filter(vehicle -> vehicle.getModel().equals(model))
+                .findFirst();
+    }
+
+    public Optional<Customer> findCustomerByEmail(String email) {
+        return customers
+                .values()
+                .stream()
+                .filter(customer -> customer.getEmail().equals(email))
+                .findFirst();
+    }
+
+    public void rateVehicle(UUID vehicleId, int rating) {
+        Vehicle vehicle = carFleet.get(vehicleId);
+        vehicle.addRating(rating);
+    }
+     public List<String> getAvailableTypeVehicles() {
+        return carFleet
+                .values()
+                .stream()
+                .filter(Vehicle::isAvailable)
+                .map(vehicle -> "Model: " + vehicle.getModel()
+                + "\nBase Rental Rate: " + vehicle.getBaseRentalRate())
+                .toList();
+     }
 }

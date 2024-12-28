@@ -1,5 +1,6 @@
 package com.Vehicle.rental.models;
 
+import com.Vehicle.rental.Exceptions.RecordDoesNotExist;
 import com.Vehicle.rental.Exceptions.VehicleAlreadyExists;
 import com.Vehicle.rental.Exceptions.VehicleDoesNotExist;
 import com.Vehicle.rental.services.RentalAgency;
@@ -95,4 +96,15 @@ class RentalAgencyTest {
         rentalAgency.cancelRental(transaction.getTransactionId());
         assertEquals(RentalTransaction.RentalStatus.CANCELLED, transaction.getStatus());
     }
+
+    @Test
+    void cancelRental_recordDoesNotExist(){
+        assertThrows(RecordDoesNotExist.class, () -> rentalAgency.cancelRental(UUID.randomUUID()));
+    }
+    @Test
+    void returnEmptyVehicle() {
+        assertThrows(RecordDoesNotExist.class, () -> rentalAgency.returnVehicle(UUID.randomUUID()));
+    }
+
+
 }
