@@ -1,11 +1,9 @@
 package com.Vehicle.rental;
 
-import com.Vehicle.rental.Exceptions.NoVehicles;
 import com.Vehicle.rental.models.*;
 import com.Vehicle.rental.services.RentalAgency;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
@@ -27,7 +25,7 @@ public class Main {
             System.out.print("Enter your choice: ");
 
             int choice = input.nextInt();
-            input.nextLine(); // Consume newline
+            input.nextLine();
 
             switch (choice) {
                 case 1 -> addVehicle(rentalAgency, input);
